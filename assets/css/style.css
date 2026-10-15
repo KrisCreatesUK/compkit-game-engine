@@ -1,0 +1,40 @@
+/*
+ * Game play buttons sit inside .product-name in the order table.
+ * display:flex is block-level (new line) but keeps the flex internals
+ * intact so icons, gaps etc. all render correctly.
+ * width:max-content stops the button stretching to full cell width.
+ */
+.woocommerce-table--order-details .product-name [class*="play-button"],
+.woocommerce-table--order-details .product-name [class*="-play-button"] {
+    display: flex !important;
+    width: max-content;
+    max-width: 100%;
+    margin-top: 10px;
+}
+
+.instant-win-thankyou-container .enhanced-instant-win-reveal{
+  display: none !important;
+}
+
+.instant-win-thankyou-container.instant-reveal-thankyou-container .enhanced-instant-win-reveal{
+  display: block !important;
+}
+
+.gift-reveal-container{
+  margin-bottom: 100px !important;
+}
+tr.prize-from-scratchcard,
+tr.prize-from-spin,
+tr.prize-from-instant-reveal,
+tr.prize-from-football,
+tr.prize-from-racecar,
+tr.prize-from-slots,
+tr.prize-from-boxing,
+tr.prize-from-darts,
+tr.prize-from-balloon-pop,
+tr.prize-from-grabclaw {
+    display: none !important;
+}
+.instant-reveal-thankyou-container .wc-item-meta li {
+    display: none !important;
+}

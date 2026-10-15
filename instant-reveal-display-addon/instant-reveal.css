@@ -1,0 +1,405 @@
+/* =========================================
+   Wrapper
+========================================= */
+.enhanced-instant-win-reveal {
+    margin: 30px 0 45px;
+    color: #141414;
+    position: relative;
+}
+
+/* =========================================
+   Ticket section
+========================================= */
+.ticket-wrap       { margin-bottom: 30px; }
+.ticket-title      { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+.ticket-list       { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.ticket-badge {
+    position: relative;
+    display: inline-block;
+    padding: 10px 22px;
+    background: var(--eiwr-primary, #A3EA41);
+    color: #1f3b08;
+    font-weight: 800;
+    font-size: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,.18), inset 0 2px 4px rgba(255,255,255,.25);
+    letter-spacing: .3px;
+    min-width: 42px;
+    transition: transform .2s, box-shadow .2s;
+}
+.ticket-badge::before,
+.ticket-badge::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transform: translateY(-50%);
+}
+.ticket-badge::before { left: -8px; }
+.ticket-badge::after  { right: -8px; }
+.ticket-badge:hover   { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(0,0,0,.2); }
+
+/* =========================================
+   Shared reveal container
+========================================= */
+.gift-reveal-container {
+    display: flex;
+    justify-content: flex-start;
+    margin: 60px 0 25px;
+}
+
+.eiwr-instruction {
+    margin-top: 12px;
+    font-weight: 700;
+    color: var(--eiwr-dark, #6aa52b);
+    font-size: 14px;
+}
+
+/* Scoped deliberately - do NOT loosen this back to a bare `.hidden`.
+   WordPress ships `.hidden { display: none }` WITHOUT !important, precisely so a
+   more specific rule can reveal an element that is rendered with the class. The
+   WooCommerce product-data type selector relies on exactly that: it is output as
+   `<span class="product-data-wrapper type_box hidden">` and revealed by
+   `#woocommerce-product-data .hndle .type_box { display: inline }`.
+
+   A bare `.hidden { display: none !important }` beats that higher-specificity
+   rule, and this stylesheet is enqueued on the product edit screen by
+   includes/class-product-panel.php. The result: the entire Product data
+   dropdown - Simple product / Grouped / Giveaway - vanished whenever the plugin
+   was active, so no product could be made into a giveaway. Deactivating the
+   plugin "fixed" it, which made it look like a PHP problem rather than one line
+   of CSS. This class is only ever used on .instant-win-message. */
+.instant-win-message.hidden { display: none !important; }
+
+/* =========================================
+   STYLE 1 — GIFT BOX
+========================================= */
+.eiwr-giftbox {
+    width: 160px;
+    position: relative;
+    cursor: pointer;
+    animation: eiwrPulse 2.3s ease-in-out infinite;
+    transition: transform .3s, opacity .3s;
+}
+.eiwr-giftbox:hover { transform: translateY(-4px); }
+
+.eiwr-gift-body {
+    width: 100%;
+    height: 130px;
+    background: var(--eiwr-body, #B9EE6C);
+    border-radius: 10px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.18);
+    position: relative;
+}
+.eiwr-gift-body::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    transform: translateX(-50%);
+    background: rgba(255,255,255,.55);
+}
+
+.eiwr-gift-lid {
+    position: absolute;
+    width: 108%;
+    height: 38px;
+    left: 50%;
+    top: -28px;
+    transform: translateX(-50%);
+    background: var(--eiwr-primary, #A3EA41);
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0,0,0,.22);
+    z-index: 3;
+    transition: transform .5s ease;
+}
+.eiwr-gift-bow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #fff;
+    position: absolute;
+    top: -48px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+}
+
+.eiwr-gift-lid.eiwr-open {
+    transform: translateX(-50%) rotate(-18deg) translate(-15px, -25px);
+}
+.eiwr-giftbox.eiwr-fade-out {
+    opacity: 0;
+    transform: scale(.85);
+    pointer-events: none;
+}
+
+/* =========================================
+   STYLE 2 — ENVELOPE
+========================================= */
+.eiwr-envelope {
+    width: 220px;
+    position: relative;
+    cursor: pointer;
+    animation: eiwrPulse 2.3s ease-in-out infinite;
+}
+.eiwr-envelope:hover { transform: translateY(-4px); }
+
+.eiwr-env-body {
+    width: 220px;
+    height: 140px;
+    background: var(--eiwr-body, #B9EE6C);
+    border-radius: 8px;
+    box-shadow: 0 8px 18px rgba(0,0,0,.18);
+    position: relative;
+    overflow: hidden;
+}
+
+.eiwr-env-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    background: var(--eiwr-primary, #A3EA41);
+    clip-path: polygon(0 0, 50% 62%, 100% 0);
+    transform-origin: top center;
+    z-index: 2;
+    transition: transform .55s ease;
+}
+.eiwr-envelope.eiwr-opening .eiwr-env-flap {
+    transform: rotateX(180deg);
+}
+
+.eiwr-env-letter {
+    position: absolute;
+    width: 76%;
+    height: 72%;
+    background: #fff;
+    left: 12%;
+    top: 14%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+    color: var(--eiwr-dark, #6aa52b);
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    transition: transform .5s ease .2s;
+}
+.eiwr-envelope.eiwr-opening .eiwr-env-letter {
+    transform: translateY(-80px);
+}
+
+/* Bottom V shape */
+.eiwr-env-body::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 75px;
+    background: rgba(0,0,0,.06);
+    clip-path: polygon(0 100%, 50% 38%, 100% 100%);
+}
+
+/* =========================================
+   STYLE 3 — FLIP CARD
+========================================= */
+.eiwr-flipcard {
+    perspective: 700px;
+    cursor: pointer;
+    width: 140px;
+    animation: eiwrPulse 2.3s ease-in-out infinite;
+}
+.eiwr-flipcard:hover .eiwr-flipcard-inner { transform: rotateY(15deg); }
+
+.eiwr-flipcard-inner {
+    width: 140px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .75s cubic-bezier(.4,0,.2,1);
+}
+.eiwr-flipcard-inner.eiwr-flipped { transform: rotateY(180deg); }
+
+.eiwr-flipcard-back,
+.eiwr-flipcard-front {
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,.18);
+}
+
+.eiwr-flipcard-back {
+    background: var(--eiwr-primary, #A3EA41);
+}
+.eiwr-card-pattern {
+    position: absolute;
+    inset: 8px;
+    border: 3px solid rgba(255,255,255,.4);
+    border-radius: 8px;
+}
+.eiwr-card-qmark {
+    font-size: 56px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 2px 8px rgba(0,0,0,.2);
+    position: relative;
+    z-index: 1;
+}
+
+.eiwr-flipcard-front {
+    background: #f0fdf4;
+    transform: rotateY(180deg);
+}
+.eiwr-card-icon { font-size: 64px; }
+
+/* =========================================
+   Animations
+========================================= */
+@keyframes eiwrPulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.03); }
+}
+
+/* =========================================
+   Confetti
+========================================= */
+.eiwr-confetti {
+    position: absolute;
+    top: 0;
+    pointer-events: none;
+    animation: eiwrConfettiFall linear forwards;
+}
+@keyframes eiwrConfettiFall {
+    0%   { transform: translateY(-10px) rotate(0deg);    opacity: 1; }
+    100% { transform: translateY(320px) rotate(540deg);  opacity: 0; }
+}
+
+/* =========================================
+   Lose message
+========================================= */
+.eiwr-lose-msg {
+    font-size: 16px;
+    font-weight: 600;
+    color: #555;
+    margin-top: 10px;
+}
+
+/* =========================================
+   Prize table reveal
+========================================= */
+#prizeTable { animation: eiwrFadeUp .6s ease forwards; }
+
+@keyframes eiwrFadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.instant-win-title {
+    font-size: 20px;
+    font-weight: 800;
+    margin-bottom: 16px;
+    color: var(--eiwr-table-accent, #0d5fa9);
+}
+
+/* =========================================
+   Table
+========================================= */
+.instant-win-table {
+    width: 100%;
+    max-width: 620px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 28px rgba(0,0,0,.12);
+}
+.instant-win-table thead    { background: var(--eiwr-table-header, #2aa8f8); }
+.instant-win-table th       { padding: 14px 20px; font-size: 14px; font-weight: 800; color: #fff; text-align: left; letter-spacing: .4px; }
+.instant-win-table td       { padding: 14px 20px; font-size: 15px; vertical-align: middle; }
+.instant-win-table tbody tr:nth-child(even) { background: #f5faff; }
+.instant-win-table tbody tr:hover           { background: #e9f5ff; }
+.instant-win-table td:first-child           { font-weight: 800; color: var(--eiwr-table-accent, #0d5fa9); }
+
+/* =========================================
+   Coupon
+========================================= */
+.instant-win-coupon-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    background: #f6f9fc;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #e3e8ef;
+}
+.instant-win-coupon {
+    background: linear-gradient(135deg, #6dd57e, #3ac162);
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    transition: transform .18s, box-shadow .18s;
+    position: relative;
+    overflow: hidden;
+}
+.instant-win-coupon:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.18); }
+.instant-win-coupon::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -60%;
+    width: 40%; height: 100%;
+    background: rgba(255,255,255,.25);
+    transform: skewX(-20deg);
+    transition: .35s;
+}
+.instant-win-coupon:hover::after { left: 120%; }
+
+/* =========================================
+   Coupon popup
+========================================= */
+.eiwr-coupon-popup {
+    position: fixed;
+    left: 50%;
+    top: 20%;
+    transform: translateX(-50%);
+    background: #2ecc71;
+    color: #fff;
+    padding: 14px 18px;
+    border-radius: 8px;
+    font-size: 15px;
+    z-index: 99999;
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    display: none;
+}
+.eiwr-coupon-popup.error { background: #e74c3c; }
+
+/* =========================================
+   Mobile
+========================================= */
+@media (max-width: 600px) {
+    .eiwr-giftbox, .eiwr-envelope { transform: scale(.88); transform-origin: left center; }
+    .ticket-badge { padding: 8px 18px; font-size: 14px; }
+}
