@@ -37,12 +37,13 @@ the result in it, and the game is pointless — the customer already knows.
 
 The **Smart Email Delay Handler** holds the confirmation email back until every ticket on
 the order has been played, then releases it. It is the single most important piece of the
-product and it is three hundred lines in the free core, because the valuable part of a
-product is rarely the part that looks impressive in a screenshot.
+product, and it lives in the free core rather than behind a licence, because the valuable
+part of a product is rarely the part that looks impressive in a screenshot.
 
-Interfering with a core transactional email is dangerous, so it fails safe: there is a
-backstop that releases the email regardless after a bounded wait. A customer never loses
-their receipt because they closed the tab.
+Interfering with a core transactional email is dangerous, so it fails safe: a scheduled
+backstop releases the email regardless after six hours (`COMPKIT_EMAIL_HOLD_TIMEOUT`, or the
+`compkit_email_hold_timeout` filter per site). A customer never loses their receipt because
+they closed the tab.
 
 ## How the commercial side works
 
@@ -104,4 +105,4 @@ It is an add-on and does nothing on its own.
 ---
 
 Built and supported by Kris Sull — [kriscreates.co.uk](https://kriscreates.co.uk) ·
-hello@kriscreates.co.uk
+kris@kriscreates.co.uk
